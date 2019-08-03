@@ -1,6 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
 import bcrypt from 'bcryptjs';
-import { userInfo } from 'os';
 
 class User extends Model {
   static init(sequelize) {
@@ -26,6 +25,12 @@ class User extends Model {
       }
     });
     return this;
+  }
+  checkPassword(password) {
+    /**
+     * o método compare do bcrypt verifica se o password informado está correto
+     */
+    return bcrypt.compare(password, this.password_hash);
   }
 }
 
