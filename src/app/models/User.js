@@ -26,6 +26,7 @@ class User extends Model {
     });
     return this;
   }
+
   checkPassword(password) {
     /**
      * o método compare do bcrypt verifica se o password informado está correto
