@@ -1,6 +1,6 @@
 ## Go Barber
 
-### Este é um projeto que tem o objetivo de fornecer agendamentos de serviços de barbearia, o projeto é idealizado pela Rocketseat e pretende fornecer a prática necessária de uma api rest utilizando tecnologias que o NodeJS fornece.
+- Este é um projeto que tem o objetivo de fornecer agendamentos de serviços de barbearia, o projeto é idealizado pela Rocketseat e pretende fornecer a prática necessária de uma api rest utilizando tecnologias que o NodeJS fornece.
 
 ### Como instalar o projeto?
 
