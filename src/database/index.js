@@ -14,7 +14,14 @@ class Database {
 
   init() {
     this.connection = new Sequelize(databaseConfig);
-    models.map(model => model.init(this.connection));
+    models
+      .map(model => model.init(this.connection))
+      /**
+       * Quando se realiza um relacionamento utilizando associate é preciso
+       * declarar um novo map para que caso exista um associate, o mesmo seja
+       * invocado
+       */
+      .map(model => model.associate && model.associate(this.connection.models));
   }
 }
 

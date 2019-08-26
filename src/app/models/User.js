@@ -27,6 +27,13 @@ class User extends Model {
     return this;
   }
 
+  /**
+   * avatar_id pertence a File
+   */
+  static associate(models) {
+    this.belongsTo(models.File, { foreignKey: 'avatar_id' });
+  }
+
   checkPassword(password) {
     /**
      * o método compare do bcrypt verifica se o password informado está correto
