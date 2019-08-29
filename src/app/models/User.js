@@ -31,7 +31,10 @@ class User extends Model {
    * avatar_id pertence a File
    */
   static associate(models) {
-    this.belongsTo(models.File, { foreignKey: 'avatar_id' });
+    /**
+     * o "as" funciona como especifica um alias para o atributo
+     */
+    this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
   }
 
   checkPassword(password) {
