@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import { isBefore, startOfHour, parseISO } from 'date-fns';
 import Appointment from '../models/Appointments';
 import User from '../models/User';
+import File from '../models/File';
 
 class AppointmentsController {
   async store(req, res) {
@@ -57,6 +58,34 @@ class AppointmentsController {
       date,
     });
     return res.json({ appointment });
+  }
+
+  async index(req, res) {
+    const appointments = await Appointment.findAll({
+      where: {
+        user_id: req.userId,
+        canceled_at: null,
+      },
+      order: ['date'],
+      attributes: ['id', 'date'],
+      include: [
+        {
+          model: User,
+          as: 'provider',
+          attributes: ['id', 'name'],
+          include: [
+            {
+              model: File,
+              as: 'avatar',
+            },
+          ],
+        },
+      ],
+    });
+    if (!appointments) {
+      return res.status(400).json({ error: { message: 'No results' } });
+    }
+    return res.json({ appointments });
   }
 }
 export default new AppointmentsController();

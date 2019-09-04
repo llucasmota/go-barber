@@ -26,4 +26,6 @@ routes.post('/files', upload.single('file'), FileController.store);
 
 routes.post('/appointments', AppointmentsController.store);
 
+routes.get('/appointments', AppointmentsController.index);
+
 module.exports = routes;
