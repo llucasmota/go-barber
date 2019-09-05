@@ -61,6 +61,9 @@ class AppointmentsController {
   }
 
   async index(req, res) {
+    /**
+     * Searching for appointments
+     */
     const appointments = await Appointment.findAll({
       where: {
         user_id: req.userId,
@@ -77,6 +80,7 @@ class AppointmentsController {
             {
               model: File,
               as: 'avatar',
+              attributes: ['id', 'path', 'url'],
             },
           ],
         },
