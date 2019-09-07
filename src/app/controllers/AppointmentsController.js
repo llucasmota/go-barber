@@ -62,6 +62,10 @@ class AppointmentsController {
 
   async index(req, res) {
     /**
+     * Pagination
+     */
+    const { page = 1 } = req.query;
+    /**
      * Searching for appointments
      */
     const appointments = await Appointment.findAll({
@@ -71,6 +75,12 @@ class AppointmentsController {
       },
       order: ['date'],
       attributes: ['id', 'date'],
+      limit: 20,
+      /**
+       * Caso a página seja igual a 1: apresenta 20
+       * Caso seja 2 irá pular 20 e apresentar as próximas 20
+       */
+      offset: (page - 1) * 20,
       include: [
         {
           model: User,
@@ -80,6 +90,9 @@ class AppointmentsController {
             {
               model: File,
               as: 'avatar',
+              /**
+               * Necessário passa o path nos attributes, pois a url utiliza o path no retorno
+               */
               attributes: ['id', 'path', 'url'],
             },
           ],
