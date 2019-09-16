@@ -28,6 +28,13 @@ class AppointmentsController {
         error: { message: 'You can only create Appointments with providers' },
       });
     }
+    if (req.userId === provider_id) {
+      return res.status(401).json({
+        error: {
+          message: 'You cannot create appointment when the provider is you!',
+        },
+      });
+    }
     /**
      * startOfHour ignora os minutos e analisa apenas a hora e a data, o parseISO
      * transforma o valor em um tipo date do JS.
