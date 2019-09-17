@@ -127,5 +127,11 @@ class AppointmentsController {
     }
     return res.json({ appointments });
   }
+
+  async delete(req, res) {
+    const appointment = await Appointment.findByPk(req.params.id);
+
+    return res.json(appointment);
+  }
 }
 export default new AppointmentsController();
