@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { isBefore, startOfHour, parseISO, format } from 'date-fns';
+import { isBefore, startOfHour, parseISO, format, subHours } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import Appointment from '../models/Appointments';
 import User from '../models/User';
@@ -131,6 +131,37 @@ class AppointmentsController {
   async delete(req, res) {
     const appointment = await Appointment.findByPk(req.params.id);
 
+    if (!appointment) {
+      return res
+        .status(400)
+        .json({ error: { message: 'Not exist appointment' } });
+    }
+    /**
+     * Verifica se o usuário que está tentando alterar é dono da marcação
+     */
+    if (appointment.user_id !== req.userId) {
+      return res
+        .status(401)
+        .json({ error: { message: 'Only owner can cancel ' } });
+    }
+
+    /**
+     * O cliente poderá desmarcar até duas horas antes
+     */
+    const maxTimeForCancel = subHours(appointment.date, 2);
+    /**
+     * A hora do agendamento - 2
+     * está pelo menos 2 horas antes da hora atual?
+     */
+    if (isBefore(maxTimeForCancel, new Date())) {
+      return res.status(401).json({
+        error: {
+          message: 'You can only cancel appointments 2 hours in advance.',
+        },
+      });
+    }
+    appointment.canceled_at = new Date();
+    await appointment.save;
     return res.json(appointment);
   }
 }
