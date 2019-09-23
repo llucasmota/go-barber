@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { isBefore, startOfHour, parseISO, format, subHours } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import Mail from '../../lib/Mail';
 import Appointment from '../models/Appointments';
 import User from '../models/User';
 import File from '../models/File';
@@ -129,7 +130,15 @@ class AppointmentsController {
   }
 
   async delete(req, res) {
-    const appointment = await Appointment.findByPk(req.params.id);
+    const appointment = await Appointment.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          as: 'provider',
+          attributes: ['name', 'email'],
+        },
+      ],
+    });
 
     if (!appointment) {
       return res
@@ -161,7 +170,15 @@ class AppointmentsController {
       });
     }
     appointment.canceled_at = new Date();
+
     await appointment.save;
+
+    await Mail.sendMail({
+      to: `${appointment.provider.name}<${appointment.provider.email}>`,
+      subject: 'Agendamento cancelado',
+      text: 'Há um novo cancelamento',
+    });
+
     return res.json(appointment);
   }
 }
