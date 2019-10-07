@@ -24,7 +24,7 @@ class Mail {
   }
 
   configureTemplates() {
-    const viewPath = resolve(__dirname, '..', 'app', 'views', 'email');
+    const viewPath = resolve(__dirname, '..', 'app', 'views', 'emails');
     /**
      * Passando para o transporter do nodemailer o compile que ele utilizará
      * para o e-mail
