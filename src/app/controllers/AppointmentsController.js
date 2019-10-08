@@ -175,8 +175,7 @@ class AppointmentsController {
       });
     }
     appointment.canceled_at = new Date();
-
-    await appointment.save;
+    await appointment.save();
 
     await Mail.sendMail({
       to: `${appointment.provider.name}<${appointment.provider.email}>`,
