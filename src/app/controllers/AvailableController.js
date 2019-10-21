@@ -42,6 +42,10 @@ class AvailableController {
       '19:00',
       '22:00',
     ];
+    /**
+     * este código serve para retornar os valores de schedule
+     * formatados: yyyy-MM-dd'T'HH:mm:ssxxx
+     */
     const available = schedule.map(time => {
       const [hour, minute] = time.split(':');
       const value = setSeconds(

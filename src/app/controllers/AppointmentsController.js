@@ -100,7 +100,7 @@ class AppointmentsController {
         canceled_at: null,
       },
       order: ['date'],
-      attributes: ['id', 'date'],
+      attributes: ['id', 'date', 'past'],
       limit: 20,
       /**
        * Caso a página seja igual a 1: apresenta 20
