@@ -17,7 +17,7 @@ class AvailableController {
       return res.status(400).json({ error: { message: 'Date é obrigatório' } });
     }
     const searchDate = Number(date);
-    const appointments = await Appointments.findAlll({
+    const appointments = await Appointments.findAll({
       where: {
         provider_id: req.params.providerId,
         canceled_at: null,

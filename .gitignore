@@ -4,6 +4,8 @@ README_PERS.md
 
 package-lock.json
 
+.env
+
 yarn.lock
 
 .DS_Store
